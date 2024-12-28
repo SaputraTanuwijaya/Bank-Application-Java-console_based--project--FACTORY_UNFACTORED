@@ -20,7 +20,7 @@ public class Operation
 		{
 			BankInfo bank = new BankInfo();
 			Scanner scan = new Scanner(System.in);
-			procces bankprocess = new procces();
+			Process bankprocess = new Process();
 			 switch (key) 
 			 {
 				case 1:

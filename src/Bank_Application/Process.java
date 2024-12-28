@@ -1,7 +1,7 @@
 package Bank_Application;
 import java.util.Scanner;
 
-public class procces 
+public class Process 
 {
  Scanner sc = new Scanner(System.in);  
  static BankInfo bank1 = new BankInfo();
