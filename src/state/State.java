@@ -4,7 +4,7 @@ import model.User;
 
 public abstract class State {
 
-	private User user;
+	protected User user;
 	
 	public State(User user) {
 		this.user = user;

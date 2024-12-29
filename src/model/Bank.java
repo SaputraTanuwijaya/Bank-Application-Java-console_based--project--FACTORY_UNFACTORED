@@ -49,7 +49,6 @@ public class Bank implements Proxy{
 		user.setBalance(user.getBalance() + balance);
 		System.out.println(balance +" is deposited into your Account");
 		System.out.println("Current Available Balance is "+ user.getBalance());
-		
 	}
 
 	@Override
@@ -83,7 +82,6 @@ public class Bank implements Proxy{
 			System.out.println("The current " + user.getAccountNumber() + " balance is insufficient for further transactions");
 			System.out.println("Current Available Balance is "+ user.getBalance());
 		}
-		
 	}
 	
 

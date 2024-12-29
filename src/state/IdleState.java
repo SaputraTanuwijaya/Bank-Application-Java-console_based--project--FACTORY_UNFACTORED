@@ -12,7 +12,7 @@ public class IdleState extends State{
 	@Override
 	public void changeState() {
 		// TODO Auto-generated method stub
-		
+		user.setState(new PendingState(user));
 	}
 
 }
