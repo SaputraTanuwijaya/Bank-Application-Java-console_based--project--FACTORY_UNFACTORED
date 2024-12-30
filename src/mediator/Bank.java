@@ -1,17 +1,18 @@
-package model;
+package mediator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import model.User;
 import proxy.Proxy;
+import singleton.Database;
 
-//buat observable?
+//buat mediator
 public class Bank implements Proxy{
 
 	private String name;
 	private String address;
-	
 	
 	public Bank(String name, String address) {
 		this.name = name;
