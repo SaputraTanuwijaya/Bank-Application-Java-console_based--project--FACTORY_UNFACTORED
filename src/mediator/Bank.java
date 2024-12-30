@@ -1,17 +1,18 @@
-package model;
+package mediator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import model.User;
 import proxy.Proxy;
+import singleton.Database;
 
-//buat observable?
+//buat mediator
 public class Bank implements Proxy{
 
 	private String name;
 	private String address;
-	
 	
 	public Bank(String name, String address) {
 		this.name = name;
@@ -70,10 +71,10 @@ public class Bank implements Proxy{
 
 	@Override
 	public void transfer(User user, long balance, User receiver) {
-		if(balance < user.getBalance())
+		if(balance <= user.getBalance())
 		{
 			user.setBalance(user.getBalance() - balance);
-			receiver.setBalance(user.getBalance() + balance);
+			receiver.setBalance(receiver.getBalance() + balance);
 			System.out.println(balance +" is transfer from " + user.getAccountNumber() + " Account to " + receiver.getAccountNumber());
 			System.out.println("Current Available Balance in" + user.getAccountNumber() + " is "+ user.getBalance());
 		}

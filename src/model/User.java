@@ -1,5 +1,6 @@
 package model;
 
+import proxy.Proxy;
 import state.IdleState;
 import state.State;
 
@@ -11,14 +12,16 @@ public abstract class User {
 	private String accountType;
 	private long balance; 
 	private State state;
+	private Proxy bank;
 	
-	public User(String accountNumber, String name, String accountType, long balance) {
+	public User(String accountNumber, String name, String accountType, long balance, Proxy bank) {
 		this.accountNumber = accountNumber;
 		this.name = name;
 		this.accountType = accountType;
 		this.balance = balance;
 		
 		this.state = new IdleState(this);
+		this.bank = bank;
 	}
 
 	public String getAccountNumber() {
@@ -61,4 +64,19 @@ public abstract class User {
 		this.state = state;
 	}
 
+	public void checkBalance() {
+		bank.checkBalance(this);
+	}
+	
+	public void deposit(long balance) {
+		bank.deposit(this, balance);
+	}
+	
+	public void withdraw(long balance) {
+		bank.withdraw(this, balance);
+	}
+	
+	public void transfer(long balance, User receiver) {
+		bank.transfer(this, balance, receiver);
+	}
 }

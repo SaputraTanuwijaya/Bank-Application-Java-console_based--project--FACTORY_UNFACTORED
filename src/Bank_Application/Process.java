@@ -5,24 +5,26 @@ import java.util.Scanner;
 
 import factory.PrioritasFactory;
 import factory.RegulerFactory;
-import model.Bank;
+import iterator.Iterator;
+import iterator.UserIterator;
+import mediator.Bank;
 import model.User;
 import proxy.BankProxy;
 import singleton.Database;
 
 public class Process {
 	private Scanner scan = new Scanner(System.in);
-	private ArrayList<User> users = Database.getInstance();
+	private Database database = Database.getInstance();
 	private PrioritasFactory prioritasFactory = new PrioritasFactory();
 	private RegulerFactory regulerFactory = new RegulerFactory();
 	private Bank bank = new Bank("acb", "bumi");
-	private BankProxy bankProxy = new BankProxy(bank);
+//	private BankProxy bankProxy = new BankProxy(bank);
 	public User currentUser = null;
 
 	private int count = 0;
 	
 	public void checkbalance() {
-		bankProxy.checkBalance(currentUser);
+		currentUser.checkBalance();
 	}
 	
 	public void deposit() {
@@ -40,7 +42,7 @@ public class Process {
 		}
 		
 		if(success && deposit > 0) {			
-			bankProxy.deposit(currentUser, deposit);
+			currentUser.deposit(deposit);
 		} else {
 			System.out.println("Deposit failed");
 		}
@@ -61,7 +63,7 @@ public class Process {
 		}
 		
 		if(success && withdraw > 0) {			
-			bankProxy.withdraw(currentUser, withdraw);
+			currentUser.withdraw(withdraw);
 		} else {
 			System.out.println("Withdraw failed");
 		}
@@ -93,7 +95,7 @@ public class Process {
 		}
 		
 		if(success && amount > 0) {
-			bankProxy.transfer(currentUser, amount, receiver);
+			currentUser.transfer(amount, receiver);
 		} else {
 			System.out.println("Transfer failed");
 		}
@@ -118,12 +120,12 @@ public class Process {
 			type = scan.nextLine();
 		} while (!type.equals("Prioritas") && !type.equals("Reguler"));
 
-		String code = "AC" + String.format("%3d", count++);
+		String code = "AC" + String.format("%03d", count++);
 
 		if (type.equals("Prioritas")) {
-			users.add(prioritasFactory.createClient(code, username, type, 0));
+			database.addUser(prioritasFactory.createClient(code, username, type, 0, new BankProxy(bank)));
 		} else {
-			users.add(regulerFactory.createClient(code, username, type, 0));
+			database.addUser(regulerFactory.createClient(code, username, type, 0, new BankProxy(bank)));
 		}
 
 		System.out.println();
@@ -140,13 +142,20 @@ public class Process {
 		String username = scan.nextLine();
 
 		User user = null;
-
-		for (int i = 0; i < users.size(); i++) {
-			if (users.get(i).getName().equals(username)) {
-				user = users.get(i);
+		Iterator<User> iterator = database.createIterator();
+		while(iterator.hasNext()) {
+			User it = iterator.getNext();
+			if (it.getName().equals(username)) {
+				user = it;
 				break;
 			}
 		}
+//		for (int i = 0; i < users.size(); i++) {
+//			if (users.get(i).getName().equals(username)) {
+//				user = users.get(i);
+//				break;
+//			}
+//		}
 
 		System.out.println();
 
@@ -164,7 +173,11 @@ public class Process {
 	}
 	
 	public User findUsersByAccountNumber(String number) {
-		for (User user : users) {
+		Iterator<User> iterator = database.createIterator();
+		
+		while(iterator.hasNext()) {
+			User user = iterator.getNext();
+			
 			if(user.getAccountNumber().equals(number)) {
 				return user;
 			}
