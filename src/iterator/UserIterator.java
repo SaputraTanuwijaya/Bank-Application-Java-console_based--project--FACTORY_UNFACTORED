@@ -9,8 +9,6 @@ public class UserIterator<T> implements Iterator<T>{
 	private ArrayList<T> userList;
 	private int currIdx;
 	
-	
-	
 	public UserIterator(ArrayList<T> userList) {
 		super();
 		this.userList = userList;
@@ -28,7 +26,4 @@ public class UserIterator<T> implements Iterator<T>{
 	public boolean hasNext() {
 		return currIdx < userList.size();
 	}
-
-	
-
 }

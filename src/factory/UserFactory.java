@@ -7,7 +7,7 @@ public abstract class UserFactory {
 	private User newMember(String accNum, String name, String accType, long balance) {
 		User user = createClient(accNum, name, accType, balance);
 		
-		System.out.println("Welcome " + name + "! Thank you for trusting us as your financial partner.");
+		System.out.println("Welcome " + user.getName() + "! Thank you for trusting us as your financial partner.");
 		
 		return user;
 	}
