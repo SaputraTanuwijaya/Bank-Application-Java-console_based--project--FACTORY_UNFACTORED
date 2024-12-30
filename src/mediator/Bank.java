@@ -71,10 +71,10 @@ public class Bank implements Proxy{
 
 	@Override
 	public void transfer(User user, long balance, User receiver) {
-		if(balance < user.getBalance())
+		if(balance <= user.getBalance())
 		{
 			user.setBalance(user.getBalance() - balance);
-			receiver.setBalance(user.getBalance() + balance);
+			receiver.setBalance(receiver.getBalance() + balance);
 			System.out.println(balance +" is transfer from " + user.getAccountNumber() + " Account to " + receiver.getAccountNumber());
 			System.out.println("Current Available Balance in" + user.getAccountNumber() + " is "+ user.getBalance());
 		}

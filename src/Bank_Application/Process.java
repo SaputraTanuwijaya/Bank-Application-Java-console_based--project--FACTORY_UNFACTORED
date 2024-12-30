@@ -120,7 +120,7 @@ public class Process {
 			type = scan.nextLine();
 		} while (!type.equals("Prioritas") && !type.equals("Reguler"));
 
-		String code = "AC" + String.format("%3d", count++);
+		String code = "AC" + String.format("%03d", count++);
 
 		if (type.equals("Prioritas")) {
 			database.addUser(prioritasFactory.createClient(code, username, type, 0, new BankProxy(bank)));
