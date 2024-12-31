@@ -18,18 +18,7 @@ public class BankProxy implements Proxy{
 
 	@Override
 	public void deposit(User user, long balance) {
-		if(user.getAccountType().equalsIgnoreCase("Prioritas") && balance > 50000) {
-			user.getState().changeState();
-			bank.deposit(user, ((long)(balance * 1.05)));
-		}
-		else if(user.getAccountType().equalsIgnoreCase("Reguler") && balance > 50000) {
-			user.getState().changeState();			
-			bank.deposit(user, ((long)(balance * 1.01)));
-		}
-		else {
-			user.getState().changeState();
-			bank.deposit(user, balance);
-		}
+		bank.deposit(user, balance);
 	}
 
 	@Override

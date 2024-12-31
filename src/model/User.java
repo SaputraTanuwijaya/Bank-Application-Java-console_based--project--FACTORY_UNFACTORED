@@ -12,7 +12,7 @@ public abstract class User {
 	private String accountType;
 	private long balance; 
 	private State state;
-	private Proxy bank;
+	protected Proxy bank;
 	
 	public User(String accountNumber, String name, String accountType, long balance, Proxy bank) {
 		this.accountNumber = accountNumber;
@@ -63,13 +63,23 @@ public abstract class User {
 	public void setState(State state) {
 		this.state = state;
 	}
+	
+	public void changeState() {
+		state.changeState();
+	}
 
 	public void checkBalance() {
 		bank.checkBalance(this);
 	}
 	
-	public void deposit(long balance) {
+	public void depositToBank(long balance) {
 		bank.deposit(this, balance);
+	}
+	
+	// deposit = template method
+	public void deposit(long balance) {
+		changeState();
+		depositToBank(balance);
 	}
 	
 	public void withdraw(long balance) {
