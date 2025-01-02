@@ -4,8 +4,8 @@ import proxy.Proxy;
 
 public class Prioritas extends User{
 
-	public Prioritas(String accountNumber, String name, long balance, Proxy bank) {
-		super(accountNumber, name, "Prioritas", balance, bank);
+	public Prioritas(String accountNumber, String name, String password, Proxy bank) {
+		super(accountNumber, name, password, "Prioritas", bank);
 		// TODO Auto-generated constructor stub
 	}
 

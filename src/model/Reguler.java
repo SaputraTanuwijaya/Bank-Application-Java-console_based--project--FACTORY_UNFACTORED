@@ -4,8 +4,8 @@ import proxy.Proxy;
 
 public class Reguler extends User{
 
-	public Reguler(String accountNumber, String name, long balance, Proxy bank) {
-		super(accountNumber, name, "Reguler", balance, bank);
+	public Reguler(String accountNumber, String name, String password, Proxy bank) {
+		super(accountNumber, name, password, "Reguler", bank);
 		// TODO Auto-generated constructor stub
 	}
 

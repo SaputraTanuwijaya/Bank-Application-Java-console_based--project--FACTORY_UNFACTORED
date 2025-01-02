@@ -82,6 +82,5 @@ public class Bank implements Proxy{
 			System.out.println("Current Available Balance is "+ user.getBalance());
 		}
 	}
-	
 
 }

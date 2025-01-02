@@ -23,48 +23,53 @@ public class Process {
 	private int count = 0;
 	
 	public void checkbalance() {
-		currentUser.checkBalance();
+		if(currentUser.checkCredentials(inputPassword()))
+			currentUser.checkBalance();
 	}
 	
 	public void deposit() {
 		int deposit = 0;
 		
-		System.out.print("Enter the amount you want to deposit:: ");
-		boolean success = false;
-		try {
-			deposit = scan.nextInt();
-			success = true;
-		} catch (Exception e) {
-			success = false;
-		} finally {
-			scan.nextLine();
-		}
-		
-		if(success && deposit > 0) {			
-			currentUser.deposit(deposit);
-		} else {
-			System.out.println("Deposit failed");
+		if(currentUser.checkCredentials(inputPassword())) {
+			System.out.print("Enter the amount you want to deposit:: ");
+			boolean success = false;
+			try {
+				deposit = scan.nextInt();
+				success = true;
+			} catch (Exception e) {
+				success = false;
+			} finally {
+				scan.nextLine();
+			}
+			
+			if(success && deposit > 0) {			
+				currentUser.deposit(deposit);
+			} else {
+				System.out.println("Deposit failed");
+			}
 		}
 	}
 
 	public void withdraw() {
 		int withdraw = 0;
 		
-		System.out.print("Enter the amount you want to withdraw:: ");
-		boolean success = false;
-		try {
-			withdraw = scan.nextInt();
-			success = true;
-		} catch (Exception e) {
-			success = false;
-		} finally {
-			scan.nextLine();
-		}
-		
-		if(success && withdraw > 0) {			
-			currentUser.withdraw(withdraw);
-		} else {
-			System.out.println("Withdraw failed");
+		if(currentUser.checkCredentials(inputPassword())) {
+			System.out.print("Enter the amount you want to withdraw:: ");
+			boolean success = false;
+			try {
+				withdraw = scan.nextInt();
+				success = true;
+			} catch (Exception e) {
+				success = false;
+			} finally {
+				scan.nextLine();
+			}
+			
+			if(success && withdraw > 0) {			
+				currentUser.withdraw(withdraw);
+			} else {
+				System.out.println("Withdraw failed");
+			}
 		}
 	}
 
@@ -73,31 +78,35 @@ public class Process {
 		long amount = 0;
 		String receiverAccountNumber = "";
 		
-		System.out.print("Enter the receiver account number:: ");
-		receiverAccountNumber = scan.nextLine();
-		receiver = findUsersByAccountNumber(receiverAccountNumber);
-		
-		if(receiver == null) {
-			System.out.println("Receiver account not found");
-			return;
+		if(currentUser.checkCredentials(inputPassword())) {
+			System.out.print("Enter the receiver account number:: ");
+			receiverAccountNumber = scan.nextLine();
+			receiver = findUsersByAccountNumber(receiverAccountNumber);
+			
+			if(receiver == null) {
+				System.out.println("Receiver account not found");
+				return;
+			}
+			
+			System.out.print("Enter the amount you want to transfer:: ");
+			boolean success = false;
+			try {
+				amount = scan.nextLong();
+				success = true;
+			} catch (Exception e) {
+				success = false;
+			} finally {
+				scan.nextLine();
+			}
+			
+			if(success && amount > 0) {
+				currentUser.transfer(amount, receiver);
+			} else {
+				System.out.println("Transfer failed");
+			}
 		}
 		
-		System.out.print("Enter the amount you want to transfer:: ");
-		boolean success = false;
-		try {
-			amount = scan.nextLong();
-			success = true;
-		} catch (Exception e) {
-			success = false;
-		} finally {
-			scan.nextLine();
-		}
 		
-		if(success && amount > 0) {
-			currentUser.transfer(amount, receiver);
-		} else {
-			System.out.println("Transfer failed");
-		}
 	}
 
 	public void register() {
@@ -108,12 +117,18 @@ public class Process {
 				" -----------------------------------------------------------------------------------------------------------------------------------------------------------------");
 		String username = "";
 		String type = "";
+		String pass;
 
 		do {
 			System.out.print("Input your username: ");
 			username = scan.nextLine();
 		} while (username.length() == 0);
 
+		do {
+			System.out.print("Input your password: ");
+			pass = scan.nextLine();
+		} while (pass.length() == 0);
+		
 		do {
 			System.out.print("Input your account type [Prioritas | Reguler]: ");
 			type = scan.nextLine();
@@ -122,9 +137,9 @@ public class Process {
 		String code = "AC" + String.format("%03d", count++);
 
 		if (type.equals("Prioritas")) {
-			database.addUser(prioritasFactory.newMember(code, username, 0, new BankProxy(bank)));
+			database.addUser(prioritasFactory.newMember(code, username, pass, new BankProxy(bank)));
 		} else {
-			database.addUser(regulerFactory.newMember(code, username, 0, new BankProxy(bank)));
+			database.addUser(regulerFactory.newMember(code, username, pass, new BankProxy(bank)));
 		}
 
 		System.out.println();
@@ -139,12 +154,15 @@ public class Process {
 				" -----------------------------------------------------------------------------------------------------------------------------------------------------------------");
 		System.out.print("Enter your username: ");
 		String username = scan.nextLine();
+		
+		System.out.print("Enter your password: ");
+		String pass = scan.nextLine();
 
 		User user = null;
 		Iterator<User> iterator = database.createIterator();
 		while(iterator.hasNext()) {
 			User it = iterator.getNext();
-			if (it.getName().equals(username)) {
+			if (it.getName().equals(username) && it.getPassword().equals(pass)) {
 				user = it;
 				break;
 			}
@@ -182,5 +200,13 @@ public class Process {
 			}
 		}
 		return null;
+	}
+
+	public String inputPassword() {
+		String pass;
+		System.out.print("Enter your password:: ");
+		pass = scan.nextLine();
+		
+		return pass;
 	}
 }

@@ -6,12 +6,13 @@ public class PendingState extends State{
 
 	public PendingState(User user) {
 		super(user);
-		System.out.print("Wait, the transaction is in process");
 		changeState();
 	}
 
 	@Override
 	public void changeState() {
+		System.out.print("Wait, the transaction is in process");
+		
 		for (int i = 0; i< 3; i++) {
 			try {
 				Thread.sleep(1000);
