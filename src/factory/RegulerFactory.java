@@ -8,8 +8,8 @@ public class RegulerFactory extends UserFactory{
 
 
 	@Override
-	public User createClient(String accNum, String name, String accType, long balance, Proxy bank) {
-		Reguler reguler = new Reguler(accNum, name, accType, balance, bank);
+	public User createClient(String accNum, String name, long balance, Proxy bank) {
+		Reguler reguler = new Reguler(accNum, name, balance, bank);
 		return reguler;
 	}
 

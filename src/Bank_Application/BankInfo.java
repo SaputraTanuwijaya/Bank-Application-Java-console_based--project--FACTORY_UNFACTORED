@@ -2,6 +2,7 @@ package Bank_Application;
 
 import java.util.Scanner;
 
+//ini ga dipake mau dihapus aja kah
 public class BankInfo 
 {  
     private String accNo;  

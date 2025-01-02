@@ -7,7 +7,6 @@ public class Operation
 {
 	private static Process bankprocess = new Process();
 	private static Scanner scan = new Scanner(System.in);
-//	public BankProxy bank = new BankProxy();
 	
 	public static void bankinfo() 
 	{
@@ -15,10 +14,10 @@ public class Operation
 	    System.out.println(" ***Banking System Application***");
 	    System.out.println(" -----------------------------------------------------------------------------------------------------------------------------------------------------------------");
 	    System.out.print(" 1. Check Balance\n"
-	    		+ "2. Deposit the amount\n"
-	    		+ "3. Withdraw the amount\n"
-	    		+ "4. Transfer\n"
-	    		+ "5. Log out\n"
+	    		+ " 2. Deposit the amount\n"
+	    		+ " 3. Withdraw the amount\n"
+	    		+ " 4. Transfer\n"
+	    		+ " 5. Log out\n"
 	    		+ "ENTER YOUR CHOICE :: "); 
 	    int key = 0;
 		try {

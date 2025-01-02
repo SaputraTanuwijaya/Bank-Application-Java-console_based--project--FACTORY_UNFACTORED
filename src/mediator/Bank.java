@@ -61,8 +61,7 @@ public class Bank implements Proxy{
 			System.out.println(balance +" is withdrawn from your Account");
 			System.out.println("Current Available Balance is "+ user.getBalance());
 		}
-		else
-		{
+		else{
 			System.out.println("The current balance is insufficient for further transactions");
 			System.out.println("Current Available Balance is "+ user.getBalance());
 		}
@@ -78,8 +77,7 @@ public class Bank implements Proxy{
 			System.out.println(balance +" is transfer from " + user.getAccountNumber() + " Account to " + receiver.getAccountNumber());
 			System.out.println("Current Available Balance in" + user.getAccountNumber() + " is "+ user.getBalance());
 		}
-		else
-		{
+		else{
 			System.out.println("The current " + user.getAccountNumber() + " balance is insufficient for further transactions");
 			System.out.println("Current Available Balance is "+ user.getBalance());
 		}

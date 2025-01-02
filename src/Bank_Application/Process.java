@@ -18,7 +18,6 @@ public class Process {
 	private PrioritasFactory prioritasFactory = new PrioritasFactory();
 	private RegulerFactory regulerFactory = new RegulerFactory();
 	private Bank bank = new Bank("acb", "bumi");
-//	private BankProxy bankProxy = new BankProxy(bank);
 	public User currentUser = null;
 
 	private int count = 0;
@@ -123,9 +122,9 @@ public class Process {
 		String code = "AC" + String.format("%03d", count++);
 
 		if (type.equals("Prioritas")) {
-			database.addUser(prioritasFactory.createClient(code, username, type, 0, new BankProxy(bank)));
+			database.addUser(prioritasFactory.newMember(code, username, 0, new BankProxy(bank)));
 		} else {
-			database.addUser(regulerFactory.createClient(code, username, type, 0, new BankProxy(bank)));
+			database.addUser(regulerFactory.newMember(code, username, 0, new BankProxy(bank)));
 		}
 
 		System.out.println();
