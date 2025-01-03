@@ -3,6 +3,11 @@ package Bank_Application;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import command.BankCommand;
+import command.CheckBalanceCommand;
+import command.DepositCommand;
+import command.TransferCommand;
+import command.WithdrawCommand;
 import factory.PrioritasFactory;
 import factory.RegulerFactory;
 import iterator.Iterator;
@@ -24,17 +29,17 @@ public class Process {
 	
 	public void checkbalance() {
 		if(currentUser.checkCredentials(inputPassword()))
-			currentUser.checkBalance();
+			executeCommand(new CheckBalanceCommand(currentUser));
 	}
 	
 	public void deposit() {
-		int deposit = 0;
+		long deposit = 0;
 		
 		if(currentUser.checkCredentials(inputPassword())) {
 			System.out.print("Enter the amount you want to deposit:: ");
 			boolean success = false;
 			try {
-				deposit = scan.nextInt();
+				deposit = scan.nextLong();
 				success = true;
 			} catch (Exception e) {
 				success = false;
@@ -42,8 +47,8 @@ public class Process {
 				scan.nextLine();
 			}
 			
-			if(success && deposit > 0) {			
-				currentUser.deposit(deposit);
+			if(success && deposit > 0) {
+				executeCommand(new DepositCommand(currentUser, deposit));
 			} else {
 				System.out.println("Deposit failed");
 			}
@@ -51,13 +56,13 @@ public class Process {
 	}
 
 	public void withdraw() {
-		int withdraw = 0;
+		long withdraw = 0;
 		
 		if(currentUser.checkCredentials(inputPassword())) {
 			System.out.print("Enter the amount you want to withdraw:: ");
 			boolean success = false;
 			try {
-				withdraw = scan.nextInt();
+				withdraw = scan.nextLong();
 				success = true;
 			} catch (Exception e) {
 				success = false;
@@ -66,7 +71,7 @@ public class Process {
 			}
 			
 			if(success && withdraw > 0) {			
-				currentUser.withdraw(withdraw);
+				executeCommand(new WithdrawCommand(currentUser, withdraw));
 			} else {
 				System.out.println("Withdraw failed");
 			}
@@ -100,7 +105,7 @@ public class Process {
 			}
 			
 			if(success && amount > 0) {
-				currentUser.transfer(amount, receiver);
+				executeCommand(new TransferCommand(currentUser, amount, receiver));
 			} else {
 				System.out.println("Transfer failed");
 			}
@@ -208,5 +213,9 @@ public class Process {
 		pass = scan.nextLine();
 		
 		return pass;
+	}
+	
+	public void executeCommand(BankCommand command) {
+		command.execute();
 	}
 }
