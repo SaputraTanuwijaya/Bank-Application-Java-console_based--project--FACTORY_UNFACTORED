@@ -8,20 +8,18 @@ import command.CheckBalanceCommand;
 import command.DepositCommand;
 import command.TransferCommand;
 import command.WithdrawCommand;
-import factory.PrioritasFactory;
-import factory.RegulerFactory;
 import iterator.Iterator;
 import iterator.UserIterator;
 import mediator.Bank;
 import model.User;
+import model.Prioritas;
+import model.Reguler;
 import proxy.BankProxy;
 import singleton.Database;
 
 public class Process {
 	private Scanner scan = new Scanner(System.in);
 	private Database database = Database.getInstance();
-	private PrioritasFactory prioritasFactory = new PrioritasFactory();
-	private RegulerFactory regulerFactory = new RegulerFactory();
 	private Bank bank = new Bank("acb", "bumi");
 	public User currentUser = null;
 
@@ -140,12 +138,17 @@ public class Process {
 		} while (!type.equals("Prioritas") && !type.equals("Reguler"));
 
 		String code = "AC" + String.format("%03d", count++);
+		User newUser;
+		BankProxy bankProxy = new BankProxy(bank);
 
 		if (type.equals("Prioritas")) {
-			database.addUser(prioritasFactory.newMember(code, username, pass, new BankProxy(bank)));
+			newUser = new Prioritas(code, username, pass, bankProxy);
+			System.out.println("Welcome " + newUser.getName() + "! Thank you for trusting us as your financial partner.");
 		} else {
-			database.addUser(regulerFactory.newMember(code, username, pass, new BankProxy(bank)));
+			newUser = new Reguler(code, username, pass, bankProxy);
+			System.out.println("Welcome " + newUser.getName() + "! Thank you for trusting us as your financial partner.");
 		}
+		database.addUser(newUser);
 
 		System.out.println();
 		System.out.println("Register Successfull!");
